@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closet Screen</title>
+    <style>
+        
+        body {
+            /*background-image: url('closetback.jpg');*/
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f0f0f0;
+        }
+
+        .category {
+            margin: 20px 0;
+            width: 90%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .scroll-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            width: 90%;
+            scroll-behavior: smooth;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbars (we can remove this if we want to 
+            use scrollbars instead of arrows)*/
+        }
+
+        .item-box {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            margin-right: 10px;
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        /* setting colors for the selected items */
+        .selected {
+            background-color: #4CAF50; /* Green to indicate selection */
+            border: 2px solid #000;
+        }
+
+        /* colors for arrow buttons (darker grey when useable) */
+        .scroll-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .scroll-button:disabled {
+            background-color: #888;
+        }
+
+        /* Media queries for responsiveness */
+        @media screen and (max-width: 600px) {
+            .item-box {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .item-box {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="post">  
+        <h1>Closet</h1>
+       </div>
+    <!-- Accessories/Shoes row -->
+    <div class="category">
+        <h2>Accessories</h2>
+        <div class="scroll-wrapper">
+            <button class="scroll-button" id="left-accessories" onclick="scrollLeft('accessories')">◀</button>
+            <div class="scroll-container" id="accessories" onscroll="updateButtons('accessories')">
+                <!-- Placeholder boxes for accessories (20 boxes) -->
+            </div>
+            <button class="scroll-button" id="right-accessories" onclick="scrollRight('accessories')">▶</button>
+        </div>
+    </div>
+
+    <!-- Shirts row -->
+    <div class="category">
+        <h2>Shirts</h2>
+        <div class="scroll-wrapper">
+            <button class="scroll-button" id="left-shirts" onclick="scrollLeft('shirts')">◀</button>
+            <div class="scroll-container" id="shirts" onscroll="updateButtons('shirts')">
+            </div>
+            <button class="scroll-button" id="right-shirts" onclick="scrollRight('shirts')">▶</button>
+        </div>
+    </div>
+
+    <!-- Pants row -->
+    <div class="category">
+        <h2>Pants</h2>
+        <div class="scroll-wrapper">
+            <button class="scroll-button" id="left-pants" onclick="scrollLeft('pants')">◀</button>
+            <div class="scroll-container" id="pants" onscroll="updateButtons('pants')">
+                <!-- Same setup as for Accesories and Shirts -->
+            </div>
+            <button class="scroll-button" id="right-pants" onclick="scrollRight('pants')">▶</button>
+        </div>
+    </div>
+<!--note sure if we are doing shoes as well but added just in case. makes 
+    the window have to be scrolled to view everything though-->
+
+    <!-- Shoes row -->
+    <div class="category">
+        <h2>Shoes</h2>
+        <div class="scroll-wrapper">
+            <button class="scroll-button" id="left-shoes" onclick="scrollLeft('shoes')">◀</button>
+            <div class="scroll-container" id="shoes" onscroll="updateButtons('shoes')">
+                <!-- Same setup as fthe others -->
+            </div>
+            <button class="scroll-button" id="right-shoes" onclick="scrollRight('shoes')">▶</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate placeholder boxes for each clothing category
+        function createPlaceholderBoxes(categoryId) {
+            const container = document.getElementById(categoryId);
+            for (let i = 0; i < 20; i++) {
+                const box = document.createElement('div');
+                box.className = 'item-box';
+                box.innerText = `Item ${i + 1}`;
+                box.addEventListener('click', function() {
+                    toggleSelect(box);  // Call function to toggle the selection
+                });
+                container.appendChild(box);
+            }
+        }
+
+        // Toggle the selected state for an item
+        function toggleSelect(item) {
+            item.classList.toggle('selected');  // Toggle the 'selected' class
+        }
+
+        // Scroll left
+        function scrollLeft(categoryId) {
+            const container = document.getElementById(categoryId);
+            const scrollAmount = container.clientWidth / 2;  // Scroll by half the visible container width
+            container.scrollLeft -= scrollAmount;
+            updateButtons(categoryId);
+        }
+
+        // Scroll right
+        function scrollRight(categoryId) {
+            const container = document.getElementById(categoryId);
+            const scrollAmount = container.clientWidth / 2;  // Scroll by half the visible container width
+            container.scrollLeft += scrollAmount;
+            updateButtons(categoryId);
+        }
+
+        // Update button states based on scroll position
+        //currently the back scroll button isn't working???
+        function updateButtons(categoryId) {
+            const container = document.getElementById(categoryId);
+            const leftButton = document.getElementById(`left-${categoryId}`);
+            const rightButton = document.getElementById(`right-${categoryId}`);
+
+            // Disable the left button if scrolled all the way to the left
+            if (container.scrollLeft <= 0) {
+                leftButton.disabled = true;
+            } else {
+                leftButton.disabled = false;
+            }
+
+            // Disable the right button if scrolled all the way to the right
+            if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+                rightButton.disabled = true;
+            } else {
+                rightButton.disabled = false;
+            }
+        }
+
+        // Adding boxes for each row
+        createPlaceholderBoxes('accessories');
+        createPlaceholderBoxes('shirts');
+        createPlaceholderBoxes('pants');
+        createPlaceholderBoxes('shoes');
+        // update darting state of buttons
+        updateButtons('accessories');
+        updateButtons('shirts');
+        updateButtons('pants');
+        updateButtons('shoes');
+    </script>
+
+</body>
+</html>
