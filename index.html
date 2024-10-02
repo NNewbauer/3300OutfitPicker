@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closet Screen</title>
+    <style>
+        
+        body {
+            /*background-image: url('closetback.jpg');*/
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f0f0f0;
+        }
+
+        .category {
+            margin: 20px 0;
+            width: 90%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .scroll-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            width: 90%;
+            scroll-behavior: smooth;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbars (we can remove this if we want to 
+            use scrollbars instead of arrows)*/
+        }
+
+        .item-box {
+            width: 100px;
+            height: 100px;
+            background-color: #ccc;
+            margin-right: 10px;
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        /* setting colors for the selected items */
+        .selected {
+            background-color: #4CAF50; /* Green to indicate selection */
+            border: 2px solid #000;
+        }
+
+        /* colors for arrow buttons (darker grey when useable) */
+        .scroll-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .scroll-button:disabled {
+            background-color: #888;
+        }
+
+        /* Media queries for responsiveness */
+        @media screen and (max-width: 600px) {
+            .item-box {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .item-box {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        .outfit-container {
+            margin-top: 20px;
+        }
+
+        .category-box {
+            width: 150px;
+            height: 150px;
+            background-color: #ccc;
+            margin: 10px;
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            line-height: 150px;
+            font-size: 16px;
+            border: 2px solid #000;
+        }
+
+        .choose-btn {
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        } 
+
+        .choose-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .roll-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .roll-btn:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="post">  
+        <h1>Closet</h1>
+    </div>
+    <h1>Outfit Selection</h1>
+
+    <!-- Outfit selection grid -->
+    <div class="outfit-container">
+        <!-- Four clothing category boxes -->
+        <div class="category-box">
+            <button class="choose-btn">Choose</button>
+            Shirt
+        </div>
+    
+        <div class="category-box">
+            <button class="choose-btn">Choose</button>
+            Pants
+        </div>
+    
+        <div class="category-box">
+            <button class="choose-btn">Choose</button>
+            Shoes
+        </div>
+    
+        <div class="category-box">
+            <button class="choose-btn">Choose</button>
+            Accessories
+        </div>
+    </div>
+    
+    <!-- Roll button below the boxes -->
+    <button class="roll-btn">Roll</button>
+
+</body>
+</html>
