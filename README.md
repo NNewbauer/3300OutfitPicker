@@ -22,5 +22,19 @@ These dependencies include (as of now):
 Runs the app.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## 
+## Compatible Operating Systems
 
+- Windows
+- macOS
+- Linux
+
+## System Requirements
+
+- Node.js version: 20.12.2
+- NPM version: 10.5.0
+
+## Library Requirements
+
+- Check later
+
+##
