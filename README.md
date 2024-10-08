@@ -67,7 +67,7 @@ flowchart TD
 	B <--> C
 	B --> D(Frontend)
 	Frontend
-		Randomizes outfits
-		4 boxes that display images (from closet)
-		*
+		D: Randomizes outfits
+		D: 4 boxes that display images (from closet)
+		D: *
 ```
