@@ -1,5 +1,9 @@
 # Outfit Picker
 
+## Quick Summary
+
+Outfit Picker is an app that helps you pick out outfits if you're feeling indecisive. It is currently based solely off of the React.js API Framework. With 2 screens, one being your closet and the other being the outfit generator itself. You can upload images of your clothing into the closet page and insert tags to help the program decide what clothes work with others, another feature for helping decide outfits is the ability for the app to find the dominant color of an image so it can figure out what clothes match with others.
+
 ## Getting Started with Outfit Picker
 
 ### Available Scripts
@@ -66,9 +70,25 @@ flowchart TD
 	A --> C(Closet Screen)
 	B <--> C
 	B --> D["
-		Front End
+		FRONT END
 		––––––––––––
-		- Randomizes outfits
-		- 4 boxes that display images (from closet)
+		- Displays outfits via 4 boxes per article of clothing
+		- Can totally randomize or can pick general themes/colors
 	"]
+	B --> E["
+		BACK END
+		–––––––––––
+		- Colorthief finds dominant color of image
+		- An algorithm will find the colors that "match" for outfits
+		- A "tag" system will supplement outfit themes
+	"]
+	C --> F["
+		FRONT END
+		–––––––––––
+		- Images shown in a horizontally scrollable layout
+		- Max. 20 articles of clothing per category (e.g. 20 shirts, 20 pairs of pants, etc)
+		- Click on empty box to insert image
+	"]
+	C --> E
 ```
+More to come as developement progresses.
