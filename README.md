@@ -79,8 +79,8 @@ flowchart TD
 		BACK END
 		–––––––––––
 		- Colorthief finds dominant color of image
-		- An algorithm will find the colors that "match" for outfits
-		- A "tag" system will supplement outfit themes
+		- An algorithm will find the colors that 'match' for outfits
+		- A 'tag' system will supplement outfit themes
 	"]
 	C --> F["
 		FRONT END
