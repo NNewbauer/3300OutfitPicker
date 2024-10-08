@@ -113,4 +113,30 @@ flowchart TD
 	- Uses the ColorThief library to identify the dominant color of each uploaded clothing image.
 	- Matching algorithms compare dominant colors to suggest outfits.
 
+### System Diagram
+
+```mermaid
+flowchart TD
+	Frontend --> API{Backend API}
+	API --> ColorThief[ColorThief]
+	API --> TagSystem[Tag System]
+	API --> MatchingAlgorithm[Matching Algorithm]
+	ColorThief --> MatchingAlgorithm
+	TagSystem --> MatchingAlgorithm
+```
+
+### Class Diagram
+
+```mermaid
+classDiagram
+	OutfitPickerApp --> Closet
+	OutfitPickerApp --> OutfitGenerator
+	Closet --> ClothingItem
+	OutfitGenerator --> Outfit
+	ClothingItem --> Image
+	ClothingItem --> Tags
+	Outfit --> MatchingAlgorithm
+	MatchingAlgorithm --> ColorThief
+```
+
 More to come as developement progresses.
