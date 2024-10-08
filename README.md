@@ -128,7 +128,7 @@ flowchart TD
 ### Class Diagram
 
 ```mermaid
-flowchart ID
+flowchart TD
 	OutfitPickerApp --> Closet
 	OutfitPickerApp --> OutfitGenerator
 	Closet --> ClothingItem
