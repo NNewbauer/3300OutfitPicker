@@ -62,8 +62,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ## Architecture
 ```mermaid
 flowchart TD
-	A{Home Screen / Outfite Picker Screen} --> B{Transaction: Deposit or Withdraw}
-	B --> Deposit --> C{Deposit}
-	B --> Withdraw --> D{Withdraw}
-	C --> E{Card Read?}
+	A{Outfit Picker App} --> B{Home Screen (Outfit Picking Screen)}
+	A --> C{Closet Screen}
 ```
