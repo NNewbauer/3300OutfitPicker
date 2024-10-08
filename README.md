@@ -62,6 +62,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ## Architecture
 ```mermaid
 flowchart TD
-	A{Outfit Picker App} --> B{Home Screen / Outfit Picking Screen}
-	A --> C{Closet Screen}
+	A{Outfit Picker App} --> B(Home Screen / Outfit Picking Screen)
+	A --> C(Closet Screen)
 ```
