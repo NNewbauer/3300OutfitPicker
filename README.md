@@ -2,7 +2,9 @@
 
 ## Quick Summary
 
-Outfit Picker is an app that helps you pick out outfits if you're feeling indecisive. It is currently based solely off of the React.js API Framework. With 2 screens, one being your closet and the other being the outfit generator itself. You can upload images of your clothing into the closet page and insert tags to help the program decide what clothes work with others, another feature for helping decide outfits is the ability for the app to find the dominant color of an image so it can figure out what clothes match with others.
+Outfit Picker is an app that helps you pick out outfits if you're feeling indecisive. It is currently based solely off of the React.js API Framework. The app utilizes 2 screens:
+- **Closet** - Responsible for uploading images of your clothing, inserting tags relevant tags, finding the dominant color of an image.
+- **Outfit Generator** - Responsible for displaying images of generated articles of clothing that should work well together.
 
 ## Getting Started with Outfit Picker
 
@@ -70,20 +72,20 @@ flowchart TD
 	A --> C(Closet Screen)
 	B <--> C
 	B --> D["
-		FRONT END
+		FRONTEND
 		––––––––––––
 		- Displays outfits via 4 boxes per article of clothing
 		- Can totally randomize or can pick general themes/colors
 	"]
 	B --> E["
-		BACK END
+		BACKEND
 		–––––––––––
 		- Colorthief finds dominant color of image
 		- An algorithm will find the colors that 'match' for outfits
 		- A 'tag' system will supplement outfit themes
 	"]
 	C --> F["
-		FRONT END
+		FRONTEND
 		–––––––––––
 		- Images shown in a horizontally scrollable layout
 		- Max. 20 articles of clothing per category (e.g. 20 shirts, 20 pairs of pants, etc)
@@ -91,4 +93,24 @@ flowchart TD
 	"]
 	C --> E
 ```
+
+## High Level Architecture
+
+### Layers
+
+- Frontend: Responsible for user interaction, displaying clothing options, and generating outfits.
+- Backend: Responsible for analyzing images, identifying dominant colors, and performing matching algorithms.
+
+### Core Components
+
+- Outfit Picking Screen:
+  	- Displays 4 random clothing items at a time.
+  	- Users can choose to randomize completely or set preferences (e.g., colors, tags).
+- Closet Screen:
+	- Users can upload clothing images and tag them with categories (e.g., shirts, pants, formal, casual).
+ 	- Displays items in a scrollable view, categorized by clothing type.
+- Color Analysis:
+	- Uses the ColorThief library to identify the dominant color of each uploaded clothing image.
+	- Matching algorithms compare dominant colors to suggest outfits.
+
 More to come as developement progresses.
