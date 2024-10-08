@@ -62,15 +62,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ## Architecture
 ```mermaid
 flowchart TD
-	A[UI] --> B{Transaction: Deposit or Withdraw}
+	A{Home Screen / Outfite Picker Screen} --> B{Transaction: Deposit or Withdraw}
 	B --> Deposit --> C{Deposit}
 	B --> Withdraw --> D{Withdraw}
 	C --> E{Card Read?}
-	E --> yes --> F[Cash or Check?]
-	E --> no --> B
-	F --> Check --> G[Insert Check] --> H[Store $$ in account]
-	F --> Cash --> I[Insert Cash] --> J[Store $$ in account]
-	D --> K{Card Read?}
-	K --> yes --> L[How much would you like to take out?] --> M[Take out $$ and return $$ in cash]
-	K --> no --> B
 ```
