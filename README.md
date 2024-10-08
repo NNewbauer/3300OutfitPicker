@@ -2,11 +2,15 @@
 
 ## Quick Summary
 
-Outfit Picker is an app that helps you pick out outfits if you're feeling indecisive. It is currently based solely off of the React.js API Framework. The app utilizes 2 screens:
+Outfit Picker is an app that helps you pick out outfits if you're feeling indecisive. It helps users choose coordinated outfits based on the images of clothing in the closet, using color analysis and tags to suggest complementary looks as well.  It is currently based solely off of the React.js API Framework. The app utilizes 2 screens:
 - **Closet** - Responsible for uploading images of your clothing, inserting tags relevant tags, finding the dominant color of an image.
 - **Outfit Generator** - Responsible for displaying images of generated articles of clothing that should work well together.
 
 ## Getting Started with Outfit Picker
+
+git clone https://github.com/NNewbauer/3300OutfitPicker/
+cd outfit-picker
+npm run start
 
 ### Available Scripts
 
