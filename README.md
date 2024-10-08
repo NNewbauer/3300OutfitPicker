@@ -65,9 +65,10 @@ flowchart TD
 	A{Outfit Picker App} --> B(Home Screen / Outfit Picking Screen)
 	A --> C(Closet Screen)
 	B <--> C
-	B --> D(Frontend)
-	Frontend
-		D: Randomizes outfits
-		D: 4 boxes that display images (from closet)
-		D: *
+	B --> D["
+		Front End
+		––––––––––––
+		- Randomizes outfits
+		- 4 boxes that display images (from closet)
+	"]
 ```
