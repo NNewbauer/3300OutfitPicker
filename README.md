@@ -8,10 +8,6 @@ Outfit Picker is an app that helps you pick out outfits if you're feeling indeci
 
 ## Getting Started with Outfit Picker
 
-git clone https://github.com/NNewbauer/3300OutfitPicker/
-cd outfit-picker
-npm run start
-
 ### Available Scripts
 
 In the project directory, you can run:
