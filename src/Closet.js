@@ -11,6 +11,7 @@ const ClosetCategory = ({ title, id, items, HandleToggleSelect, filterTag }) => 
             id: index + 1,
             name: `Item ${index + 1}`,
             selected: false,
+            tags: []
         }));
         setCategoryItems(newItems);
     }, []);
@@ -37,10 +38,12 @@ const ClosetCategory = ({ title, id, items, HandleToggleSelect, filterTag }) => 
         });
 
         // Update button states
-        setScrollLeftDisabled(container.scrollLeft <= 0);
-        setScrollRightDisabled(
-            container.scrollLeft + container.clientWidth >= container.scrollWidth
-        );
+        setTimeout(() => {
+            setScrollLeftDisabled(container.scrollLeft <= 0);
+            setScrollRightDisabled(
+                container.scrollLeft + container.clientWidth >= container.scrollWidth
+            );
+        }, 300);    
     };
 
     return (
@@ -88,22 +91,27 @@ const Closet = () => {
     const [filterTag, setFilterTag] = useState('');
 
     const addTaggedItem = () => {
-        const tags = Array.from(document.getElementById('itemTags').selectedOptions).map(
+        const selectedTags = Array.from(document.getElementById('itemTags').selectedOptions).map(
             (option) => option.value
         );
 
-        const newItem = {
-            id: wardrobeItems.length + 1,
-            name: `Item ${wardrobeItems.length + 1}`,
-            tags,
-        };
+        if (selectedTags.length === 0) {
+            alert('Please select at least one tag!');
+            return;
+        }
 
-        setWardrobeItems((prev) => [...prev, newItem]);
-        alert(`Added item with tags: ${tags.join(', ')}`);
+        setWardrobeItems((prevItems) =>
+            prevItems.map((item) =>
+                item.selected
+                    ? { ...item, tags: [...new Set([...item.tags, ...selectedTags])] }
+                    : item
+            )
+        );
+        alert(`Added item with tags: ${selectedTags.join(', ')}`);
     };
 
     const filteredWardrobe = filterTag
-        ? wardrobeItems.filter((item) => item.tags.includes(filterTag))
+        ? wardrobeItems.filter((item) => filterTag.some((tag) => item.tags.includes(tag)))
         : wardrobeItems;
 
     return (
@@ -121,7 +129,7 @@ const Closet = () => {
             </div>
             <div className="filter">
                 <label htmlFor="filterSelect">Filter by Tag</label>
-                <select id="filterSelect" onChange={(e) => setFilterTag(e.target.value)} value={filterTag} multiple>
+                <select id="filterSelect" onChange={(e) => setFilterTag(Array.from(e.target.selectedOptions).map((option) => option.value))} multiple>
                     <option value="casual">Casual</option>
                     <option value="formal">Formal</option>
                     <option value="athletic">Athletic</option>
@@ -133,7 +141,7 @@ const Closet = () => {
                     title="All Items"
                     id="all-items"
                     items={filteredWardrobe}
-                    toggleSelect={(id) => console.log('Select:', id)}
+                    HandleToggleSelect={(id) => console.log('Select:', id)}
                     filterTag={filterTag}
                 />
             </div>

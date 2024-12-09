@@ -104,6 +104,25 @@
 <body>
     <div class="post">  
         <h1>Closet</h1>
+        <div>
+            <label for="itemTags">Assign Tags:</label>
+            <select id="itemTags" multiple>
+                <option value="casual">Casual</option>
+                <option value="formal">Formal</option>
+                <option value="athletic">Athletic</option>
+            </select>
+            <button onclick="addTaggedItem()">Add Item</button>
+        </div>
+        
+        <div>
+            <label for="filterTags">Filter by Tags:</label>
+            <select id="filterTags" onchange="filterByTags()">
+                <option value="">All</option>
+                <option value="casual">Casual</option>
+                <option value="formal">Formal</option>
+                <option value="athletic">Athletic</option>
+            </select>
+        </div>
        </div>
     <!-- Accessories/Shoes row -->
     <div class="category">
@@ -222,6 +241,55 @@
         updateButtons('shirts');
         updateButtons('pants');
         updateButtons('shoes');
+
+        let wardrobeItems = [];
+
+        function addTaggingFeature(categoryId) {
+            const container = document.getElementById(categoryId);
+
+        for (let i = 0; i < 20; i++) {
+            const box = document.createElement('div');
+            box.className = 'item-box';
+            box.innerText = `Item ${i + 1}`;
+            box.dataset.tags = '[]'; // Store tags as a stringified array
+            box.addEventListener('click', function () {
+                toggleSelect(box); // Toggle the selection
+            });
+            container.appendChild(box);
+        }
+    }
+
+    function addTaggedItem() {
+        const tags = Array.from(document.getElementById("itemTags").selectedOptions).map(
+            (option) => option.value
+        );
+
+        const category = "custom"; // Example: Add under a "custom" category
+        const newItem = {
+            id: wardrobeItems.length + 1,
+            name: `Item ${wardrobeItems.length + 1}`,
+            category: category,
+            tags: tags,
+        };
+
+        wardrobeItems.push(newItem);
+        alert(`Added item with tags: ${tags.join(", ")}`);
+    }
+
+    function filterByTags() {
+        const selectedTag = document.getElementById("filterTags").value;
+        const items = document.querySelectorAll(".item-box");
+
+        items.forEach((item) => {
+            const tags = JSON.parse(item.dataset.tags); // Parse tags from dataset
+            if (!selectedTag || tags.includes(selectedTag)) {
+                item.style.display = "block"; // Show items with matching tags
+            } else {
+                item.style.display = "none"; // Hide items without matching tags
+            }
+        });
+    }
+
     </script>
 
 </body>
