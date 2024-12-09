@@ -1,0 +1,82 @@
+.closet {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.category {
+    margin: 20px 0;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.scroll-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+    width: 90%;
+    scroll-behavior: smooth;
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.item-box {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    margin-right: 10px;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.item-box.selected {
+    background-color: #4CAF50;
+    border: 2px solid #000;
+}
+
+.scroll-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.scroll-button:disabled {
+    background-color: #888;
+}
+
+@media screen and (max-width: 600px) {
+    .item-box {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .item-box {
+        width: 120px;
+        height: 120px;
+    }
+}
