@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Closet from './Closet';
 import './index.css';
-import DominantColor from './DominantColor';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DominantColor />
+    <Closet />
   </React.StrictMode>
 );
 
