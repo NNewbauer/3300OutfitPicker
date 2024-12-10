@@ -1,149 +1,159 @@
 import React, { useEffect, useState } from 'react';
 import './Closet.css';
+import closetback from './closetback.jpg';
 
-const ClosetCategory = ({ title, id, items, HandleToggleSelect, filterTag }) => {
-    const [categoryItems, setCategoryItems] = useState([]);
-    const [scrollLeftDisabled, setScrollLeftDisabled] = useState(true);
-    const [scrollRightDisabled, setScrollRightDisabled] = useState(false);
+const ClosetCategory = ({ title, id, onSelectItem }) => {
+    const [categoryItems, setCategoryItems] = useState([]); // local state for category items
+    const [isVisible, setIsVisible] = useState(false); // visibility toggle on item containers
 
+    // initializes category items with placeholders on component mount
     useEffect(() => {
-        const newItems = Array.from({ length: 20 }, (_, index) => ({
-            id: index + 1,
-            name: `Item ${index + 1}`,
-            selected: false,
-            tags: []
+        const newItems = Array.from({ length: 20 }, (_, index) => ({ // creates 20 items
+            id: index + 1, // unique identifier for each item
+            name: `Item ${index + 1}`, // name of each item
+            image: null,
+            selected: false, // tracks if item is selected
+            tags: [], // cretes a tag for each item
         }));
-        setCategoryItems(newItems);
+        setCategoryItems(newItems); // sets the category items to the new items
     }, []);
 
-    const handleToggleSelect = (itemId) => {
-        setCategoryItems((prevItems) => 
-        prevItems.map((item) =>
-            item.id === itemId ? { ...item, selected: !item.selected } : item
+    const handleUpload = async (itemId, event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                console.log("Image loaded:", reader.result)
+                setCategoryItems((prevItems) => {
+                    const updatedItems = prevItems.map((item) =>
+                        item.id === itemId
+                            ? { ...item, image: reader.result } // Set the image directly from the FileReader
+                            : item
+                    );
+                    console.log("updated category items:", updatedItems);
+                    return updatedItems;
+                });
+            };
+            reader.readAsDataURL(file); // Convert file to base64 URL
+        }
+        event.target.value = ''; // Reset file input
+    };
+
+    const handleNameChange = (itemId, newName) => {
+        setCategoryItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId ? { ...item, name: newName } : item
             )
         );
     };
 
-    const filteredCategoryItems = filterTag
-        ? categoryItems.filter((item) => item.tags.includes(filterTag))
-        : categoryItems;
-
-    const scroll = (direction) => {
-        const container = document.getElementById(id);
-        const scrollAmount = container.clientWidth / 2;
-
-        container.scrollBy({
-            left: direction === 'left' ? -scrollAmount : scrollAmount,
-            behavior: 'smooth',
-        });
-
-        // Update button states
-        setTimeout(() => {
-            setScrollLeftDisabled(container.scrollLeft <= 0);
-            setScrollRightDisabled(
-                container.scrollLeft + container.clientWidth >= container.scrollWidth
-            );
-        }, 300);    
+    // handles when items are clicked
+    const handleItemClick = (item) => {
+        onSelectItem(item); // passing the selected item to the parent component
     };
 
+    // changes between on and off for visibility of the scrollable container
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible); 
+    };
+
+    useEffect(() => {
+        console.log("Updated category items:", categoryItems);
+    }, [categoryItems]); // Logs whenever the state changes
+
     return (
-        <div className="category">
-            <h2>{title}</h2>
-            <div className="scroll-wrapper">
-                <button
-                    className="scroll-button"
-                    onClick={() => scroll('left')}
-                    disabled={scrollLeftDisabled}
-                >
-                    ◀
-                </button>
+        <div className="shelf" onClick={toggleVisibility}>
+            {/* title of category inputted later */}
+            <h2 className="shelf-title">{title}</h2>
+            {isVisible && (
                 <div className="scroll-container" id={id}>
-                    {filteredCategoryItems.map((item) => (
-                        <div
-                            key={item.id}
-                            className={`item-box ${item.selected ? 'selected' : ''}`}
-                            onClick={() => handleToggleSelect(item.id)}
-                        >
-                            <span>{item.name}</span>
-                            <div className ="tag-container">
-                                {item.tags.map((tag) => (
-                                    <span key={tag} className="tag">
-                                        {tag}
-                                    </span>
-                                ))}
+                    {categoryItems.map((item, index) => (
+                        <div key={item.id} className="item-box">
+                            <div onClick={() => handleItemClick(item)}>
+                                {item.image ? (
+                                    <img 
+                                        src={item.image}
+                                        alt={item.name}
+                                        style={{width: "150px", height: "150px"}}
+                                        />
+                                ) : (
+                                    <span>No image for {item.name}</span>
+                                )}
                             </div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleUpload(item.id, e)}
+                                className="image-input"
+                            />
+                            <input
+                                type="text"
+                                placeholder="enter item name"
+                                className="name-input"
+                                onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
+                                onChange={(e) => handleNameChange(item.id, e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.target.blur(); // Remove focus after pressing Enter
+                                    }
+                                }}
+                            />
                         </div>
                     ))}
                 </div>
-                <button
-                    className="scroll-button"
-                    onClick={() => scroll('right')}
-                    disabled={scrollRightDisabled}
-                >
-                </button>
-            </div>
+            )}
         </div>
     );
 };
 
 const Closet = () => {
-    const [wardrobeItems, setWardrobeItems] = useState([]);
-    const [filterTag, setFilterTag] = useState('');
+    const [selectedItems, setSelectedItems] = useState({}); //tracks currently selected item
 
-    const addTaggedItem = () => {
-        const selectedTags = Array.from(document.getElementById('itemTags').selectedOptions).map(
-            (option) => option.value
-        );
-
-        if (selectedTags.length === 0) {
-            alert('Please select at least one tag!');
-            return;
-        }
-
-        setWardrobeItems((prevItems) =>
-            prevItems.map((item) =>
-                item.selected
-                    ? { ...item, tags: [...new Set([...item.tags, ...selectedTags])] }
-                    : item
-            )
-        );
-        alert(`Added item with tags: ${selectedTags.join(', ')}`);
+    // updates the selected item displayed in the closet
+    const handleSelectItem = (item, categoryId) => {
+        setSelectedItems((prevSelected) => ({
+            ...prevSelected,
+            [categoryId]: item,
+        }));
     };
 
-    const filteredWardrobe = filterTag
-        ? wardrobeItems.filter((item) => filterTag.some((tag) => item.tags.includes(tag)))
-        : wardrobeItems;
-
     return (
-        <div className="closet">
-            <h1>Closet</h1>
-            <div className="controls">
-                {/* Added: Controls for tagging and category selection */}
-                <label htmlFor="itemTags">Assign Tags:</label>
-                <select id="itemTags" multiple>
-                    <option value="casual">Casual</option>
-                    <option value="formal">Formal</option>
-                    <option value="athletic">Athletic</option>
-                </select>
-                <button onClick={addTaggedItem}>Tag Selected Items</button>
-            </div>
-            <div className="filter">
-                <label htmlFor="filterSelect">Filter by Tag</label>
-                <select id="filterSelect" onChange={(e) => setFilterTag(Array.from(e.target.selectedOptions).map((option) => option.value))} multiple>
-                    <option value="casual">Casual</option>
-                    <option value="formal">Formal</option>
-                    <option value="athletic">Athletic</option>
-                </select>
-                <button onClick={addTaggedItem}>Add Item</button>
-            </div>
-            <div className="closet-categories">
+        <div className="closet" style={{ backgroundImage: `('public/closetback.jpg')` }}>
+            {/* Closet title */}
+            <h1>My Closet</h1>
+            {/* Closet background image */}
+            <img src={closetback} alt="closet-back" className = "closet-back" />
+            {/* Shelves section - display closet categories*/}
+            <div className="shelves">
+                {/* Add categories for each shelf */}
                 <ClosetCategory
-                    title="All Items"
-                    id="all-items"
-                    items={filteredWardrobe}
-                    HandleToggleSelect={(id) => console.log('Select:', id)}
-                    filterTag={filterTag}
+                    title="Shirts"
+                    id="shirts-shelf"
+                    onSelectItem={handleSelectItem}
                 />
+                <ClosetCategory
+                    title="Pants"
+                    id="pants-shelf"
+                    onSelectItem={handleSelectItem}
+                />
+                <ClosetCategory
+                    title="Shoes"
+                    id="shoes-shelf"
+                    onSelectItem={handleSelectItem}
+                />
+                <ClosetCategory
+                    title="Accessories"
+                    id="accessories-shelf"
+                    onSelectItem={handleSelectItem}
+                />
+            </div>
+            <div className="selected-items">
+                <h2>Selected Items</h2>
+                {Object.entries(selectedItems).map(([category, item]) =>(
+                    <p key={category}>
+                        {category}: {item.name}
+                    </p>
+                ))}
             </div>
         </div>
     );
