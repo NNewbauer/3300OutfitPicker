@@ -52,6 +52,19 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
         onSelectItem(item); // passing the selected item to the parent component
     };
 
+    const handleTagAddition = (itemId, tagName) => {
+        if (!tagName.trim()) return;
+
+        const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        setCategoryItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId
+                    ? { ...item, tags: [...item.tags, { name: tagName, color: randomColor }] }
+                    : item
+            )
+        );
+    };
+
     // changes between on and off for visibility of the scrollable container
     const toggleVisibility = () => {
         setIsVisible(!isVisible); 
@@ -77,7 +90,7 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
                                         style={{width: "150px", height: "150px"}}
                                         />
                                 ) : (
-                                    <span>No image for {item.name}</span>
+                                    <span>{item.name}</span>
                                 )}
                             </div>
                             <input
@@ -86,18 +99,48 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
                                 onChange={(e) => handleUpload(item.id, e)}
                                 className="image-input"
                             />
-                            <input
-                                type="text"
-                                placeholder="enter item name"
-                                className="name-input"
-                                onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
-                                onChange={(e) => handleNameChange(item.id, e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.target.blur(); // Remove focus after pressing Enter
-                                    }
-                                }}
-                            />
+                            <div className="tags-container">
+                                    {item.tags.map((tag, index) => (
+                                        <span
+                                            key={index}
+                                            style={{
+                                                backgroundColor: tag.color,
+                                                color: '#fff',
+                                                padding: '2px 8px',
+                                                marging: '2px',
+                                                borderRadius: '4px',
+                                                display: 'inline-block',
+                                            }}
+                                        >
+                                            {tag.name}
+                                        </span>
+                                    ))}
+                            </div>
+                            <div className="text-input-container">
+                                <input
+                                    type="text"
+                                    placeholder="enter item name"
+                                    className="name-input"
+                                    onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
+                                    onChange={(e) => handleNameChange(item.id, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.target.blur(); // Remove focus after pressing Enter
+                                        }
+                                    }}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="add tag"
+                                    onClick={(e) => e.stopPropagation()}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleTagAddition(item.id, e.target.value);
+                                            e.target.value = '';
+                                        }
+                                    }}
+                                />
+                            </div>
                         </div>
                     ))}
                 </div>
