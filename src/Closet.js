@@ -5,7 +5,8 @@ import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 
 // ClosetCategory Component for each item category
 const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
-    const [categoryItems, setCategoryItems] = useState([]); // Local state for category items
+    const [categoryItems, setCategoryItems] = useState([]);
+    const [isScrollViewOpen, setIsScrollViewOpen] = useState(false); // Local state for category items
 
     // Initializes category items with placeholders on component mount
     useEffect(() => {
@@ -18,6 +19,10 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         }));
         setCategoryItems(newItems); // Sets the category items to the new items
     }, []);
+
+    const toggleScrollView = () => {
+        setIsScrollViewOpen(!isScrollViewOpen);
+    }
 
     const handleUpload = async (itemId, event) => {
         const file = event.target.files[0];
@@ -70,73 +75,100 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         )
         : categoryItems;
 
+    useEffect(() => {
+        console.log("Updated category items:", categoryItems);
+    }, [categoryItems]); // Logs whenever the state changes
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const scrollView = document.getElementById(id);
+            if (scrollView && !scrollView.contains(event.target)) {
+                setIsScrollViewOpen(false); // Close the scroll view
+            }
+        };
+    
+        if (isScrollViewOpen) {
+            document.addEventListener("mousedown", handleClickOutside); // Use 'mousedown' for better UX
+        }
+    
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isScrollViewOpen, id]);
+
     return (
         <div className="shelf">
-            <h2 className="shelf-title">{title}</h2>
-            <div className="scroll-container" id={id}>
-                {filteredItems.map((item) => (
-                    <div key={item.id} className="item-box">
-                        <div onClick={() => handleItemClick(item)}>
-                            {item.image ? (
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
-                                    style={{ width: "150px", height: "150px" }}
-                                />
-                            ) : (
-                                <span>{item.name}</span>
-                            )}
-                        </div>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => handleUpload(item.id, e)}
-                            className="image-input"
-                        />
-                        <div className="tags-container">
-                            {item.tags.map((tag, index) => (
-                                <span
-                                    key={index}
-                                    style={{
-                                        backgroundColor: tag.color,
-                                        color: '#fff',
-                                        padding: '2px 8px',
-                                        margin: '2px',
-                                        borderRadius: '4px',
+            {/* Title of category inputted later */}
+            <button className="toggle-button" onClick={toggleScrollView}> 
+                {isScrollViewOpen ? 'Close' : 'Open'} {title}
+            </button>
+            {isScrollViewOpen && (
+                <div className="scroll-container" id={id}>
+                    {filteredItems.map((item) => (
+                        <div key={item.id} className="item-box">
+                            <div onClick={() => handleItemClick(item)}>
+                                {item.image ? (
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        style={{ width: "150px", height: "150px" }}
+                                    />
+                                ) : (
+                                    <span>{item.name}</span>
+                                )}
+                            </div>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleUpload(item.id, e)}
+                                className="image-input"
+                            />
+                            <div className="tags-container">
+                                {item.tags.map((tag, index) => (
+                                    <span
+                                        key={index}
+                                        style={{
+                                            backgroundColor: tag.color,
+                                            color: '#fff',
+                                            padding: '2px 8px',
+                                            margin: '2px',
+                                            borderRadius: '4px',
+                                            display: 'inline-block',
+                                        }}
+                                    >
+                                        {tag.name}
+                                    </span>
+                                ))}
+                            </div>
+                            <div className="text-input-container">
+                                <input
+                                    type="text"
+                                    placeholder="Enter item name"
+                                    className="name-input"
+                                    onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
+                                    onChange={(e) => handleNameChange(item.id, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.target.blur(); // Remove focus after pressing Enter
+                                        }
                                     }}
-                                >
-                                    {tag.name}
-                                </span>
-                            ))}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Add tag"
+                                    onClick={(e) => e.stopPropagation()}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            handleTagAddition(item.id, e.target.value);
+                                            e.target.value = '';
+                                        }
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="text-input-container">
-                            <input
-                                type="text"
-                                placeholder="Enter item name"
-                                className="name-input"
-                                onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
-                                onChange={(e) => handleNameChange(item.id, e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.target.blur(); // Remove focus after pressing Enter
-                                    }
-                                }}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Add tag"
-                                onClick={(e) => e.stopPropagation()}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        handleTagAddition(item.id, e.target.value);
-                                        e.target.value = '';
-                                    }
-                                }}
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
