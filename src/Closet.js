@@ -16,6 +16,7 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
             image: null,
             selected: false, // Tracks if item is selected
             tags: [], // Creates a tag for each item
+            available: true,
         }));
         setCategoryItems(newItems); // Sets the category items to the new items
     }, []);
@@ -53,7 +54,9 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
 
     // Handles when items are clicked
     const handleItemClick = (item) => {
-        onSelectItem(item); // Passing the selected item to the parent component
+        if (item.available) { // Only allow selection if the item is available
+            onSelectItem(item); // Passing the selected item to the parent component
+        } // Passing the selected item to the parent component
     };
 
     const handleTagAddition = (itemId, tagName) => {
@@ -68,7 +71,13 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
             )
         );
     };
-
+    const handleMakeUnavailable = (itemId) => {
+        setCategoryItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId ? { ...item, available: !item.available } : item
+            )
+        );
+    };
     const filteredItems = searchQuery
         ? categoryItems.filter((item) =>
             item.tags.some((tag) => tag.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -86,11 +95,11 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                 setIsScrollViewOpen(false); // Close the scroll view
             }
         };
-    
+
         if (isScrollViewOpen) {
             document.addEventListener("mousedown", handleClickOutside); // Use 'mousedown' for better UX
         }
-    
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -99,7 +108,7 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
     return (
         <div className="shelf">
             {/* Title of category inputted later */}
-            <button className="toggle-button" onClick={toggleScrollView}> 
+            <button className="toggle-button" onClick={toggleScrollView}>
                 {isScrollViewOpen ? 'Close' : 'Open'} {title}
             </button>
             {isScrollViewOpen && (
@@ -165,6 +174,16 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                     }}
                                 />
                             </div>
+                            <button
+                                className="make-unavailable-button"
+                                onClick={() => handleMakeUnavailable(item.id)} // This will still toggle availability
+                                style={{
+                                    backgroundColor: item.available ? '#4CAF50' : '#f44336', // Green for available, red for unavailable
+                                    color: '#fff',
+                                }}
+                            >
+                                {item.available ? 'Make Unavailable' : 'Make Available'}
+                            </button>
                         </div>
                     ))}
                 </div>
@@ -194,33 +213,33 @@ const Closet = () => {
     const exportToPDF = async () => {
         const doc = new jsPDF();
         let yPosition = 20; // Start position on the page
-    
+
         const imagesToLoad = Object.entries(selectedItems)
             .map(([category, item]) => item.image ? { ...item, category } : null)
             .filter(item => item !== null); // Only consider items with images
-    
+
         const imagePromises = imagesToLoad.map(item => {
             return new Promise((resolve, reject) => {
                 const img = new Image();
                 img.src = item.image;
-    
+
                 img.onload = () => {
                     resolve({ img, item }); // Resolve when the image is loaded
                 };
-    
+
                 img.onerror = () => reject(`Error loading image for ${item.category}: ${item.name}`);
             });
         });
-    
+
         // Add title to the PDF
         doc.setFontSize(20);
         doc.text("Selected Closet Items", 20, yPosition);
         yPosition += 10;
-    
+
         try {
             // Wait for all images to load
             const loadedImages = await Promise.all(imagePromises);
-    
+
             // Iterate over the loaded images and add them to the PDF
             loadedImages.forEach(({ img, item }) => {
                 // Check if we need to add a new page before adding content
@@ -228,35 +247,35 @@ const Closet = () => {
                     doc.addPage();
                     yPosition = 20; // Reset y-position for the new page
                 }
-    
+
                 // Add category name
                 doc.setFontSize(16);
                 doc.text(`${item.category}:`, 20, yPosition); // Category name
                 yPosition += 10;
-    
+
                 // Add item name
                 doc.setFontSize(12);
                 doc.text(`Item Name: ${item.name}`, 20, yPosition); // Item name
                 yPosition += 10;
-    
+
                 // Add the item image to the PDF
                 doc.addImage(img, "JPEG", 20, yPosition, 50, 50); // Adjust size as needed
                 yPosition += 60; // Move y-position down after the image
-    
+
                 // Check if we're near the bottom of the page and add a new page if needed
                 if (yPosition > doc.internal.pageSize.height - 20) {
                     doc.addPage();
                     yPosition = 20; // Reset y-position for the new page
                 }
             });
-    
+
             // Save the PDF
             doc.save("closet_items.pdf");
         } catch (error) {
             console.error("Error loading images: ", error);
         }
     };
-       
+
 
     return (
         <div className="closet">
