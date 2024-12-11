@@ -3,7 +3,7 @@
     background-size: cover; /* sets background image to cover the whole container */
     background-repeat: no-repeat; /* prevents background image from repeating */
     background-position: center; /* centers the background image */
-    height: 100vh; /* sets height of container to fill the whole viewport */
+    height: 240px; /* sets height of container to fill the whole viewport */
     padding: 20px; /* adds spacing inside container */
     display: flex; /* enables flexbox for layout management */
     flex-direction: column; /* aligns items in a column vertically */
@@ -29,17 +29,15 @@ h1 {
 
 /* Shelf Styling */
 .shelf {
-    position: relative; /* enables positioning */
-    width: 90%; /* sets width of shelf to 90% of parent */
-    height: 15%; /* sets height of shelf to 15% of parent */
-    background-color: rgba(255, 255, 255, 0.8); /* sets background color with opacity */
-    border-radius: 10px; /* adds rounded corners */
-    display: flex; /* enables flexbox for layout management */
-    align-items: center; /* centers items horizontally */
-    justify-content: center; /* centers items vertically */
-    cursor: pointer;  /* changes cursor to pointer on hover */
-    margin: 10px 0; /* adds spacing above and below shelf */
-    transition: transform 0.3s, box-shadow 0.3s; /* adds smooth transition effect */
+    margin: 0; /* Remove unnecessary margins */
+    padding: 15px; /* Remove padding */
+    display: flex; /* Flex layout for better alignment */
+    align-items: center; /* Center the button vertically */
+    justify-content: center; /* Center the button horizontally */
+    width: auto; /* Shrink to fit content */
+    height: auto; /* Adjust to content height */
+    background: none; /* Remove background if any */
+    border: none; /* Remove border if any */
 }
 
 .shelf:hover {
@@ -57,10 +55,10 @@ h1 {
 /* Scrollable Container */
 .scroll-container {
     position: absolute;
-    top: -100%;
-    width: 90%;
-    height: 150px;
-    overflow-x: auto;
+    width: 200px;
+    height: 240px;
+    overflow-x: scroll;
+    overflow-y: hidden;
     display: flex;
     align-items: center;
     background-color: white;
@@ -68,6 +66,7 @@ h1 {
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    scroll-snap-type: x mandatory;
     z-index: 100;
 }
 
@@ -85,19 +84,19 @@ h1 {
 }
 
 .item-box {
+    flex: 0 0 200px; /* Fixed width for each item */
+    height: 200px;
+    width: 50px; /* Adjust height */
+    margin-right: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: auto;
-    height: 50px;
-    margin-right: 15px;
-    padding: 10px;
     background-color: #fff;
     border: 2px solid #ccc;
     border-radius: 10px;
     text-align: center;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    scroll-snap-align: center; /* Snap items to center */
 }
 
 item-box input[type="file"] {
@@ -154,6 +153,12 @@ item-box input[type="file"] {
     text-align: center
 }
 
+.item-box img {
+    width: 100%; /* Fill parent width */
+    height: 150px; /* Adjust height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 5px;
+}
 
 .item-box input[type="text"]:focus {
     border-color: #888;
@@ -203,4 +208,12 @@ item-box input[type="file"] {
     padding: 15px;
     /* more space between image and other eleemtns around */
     margin: 100px;
+}
+
+.categories {
+    display: grid; /* Use CSS grid for layout */
+    grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
+    grid-gap: 20px; /* Add spacing between grid items */
+    width: 100%; /* Ensure it spans the full width */
+    justify-items: center; /* Center items horizontally */
 }
