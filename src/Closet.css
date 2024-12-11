@@ -165,6 +165,35 @@ item-box input[type="file"]
     color: #666;
 }
 
+.text-input-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.text-input-container input[type="text"] {
+    font-size: 0.8rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 48%; /* Adjust width to fit side-by-side */
+    text-align: center;
+}
+
+.text-input-container input[type="text"]:focus {
+    border-color: #888;
+    outline: none;
+}
+
+/* Item Name Styling */
+.item-box span {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
 
 .item-box input[type="text"]:focus {
     border-color: #888;
@@ -250,4 +279,42 @@ item-box input[type="file"]
     border: 1px solid #ddd;
     width: 90%;
     text-align: center;
+}
+
+.search-bar {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    background: white;
+    width: 400px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+form {
+    background: white;
+    width: 600px;
+    height: 55px;
+    display: flex;
+}
+form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: whitesmoke;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px 0 0 5px;
+}
+form button{
+    background: black;
+    padding: 10px 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    letter-spacing: 1px;
+    cursor: pointer;
 }
