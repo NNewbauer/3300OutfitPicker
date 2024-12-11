@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
 
-const ClosetCategory = ({ title, id, onSelectItem }) => {
+const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
     const [categoryItems, setCategoryItems] = useState([]); // local state for category items
     const [isVisible, setIsVisible] = useState(false); // visibility toggle on item containers
 
@@ -70,6 +70,12 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
         setIsVisible(!isVisible); 
     };
 
+    const filteredItems = searchQuery
+        ? categoryItems.filter(item =>
+            item.tags.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+        : categoryItems;
+
     useEffect(() => {
         console.log("Updated category items:", categoryItems);
     }, [categoryItems]); // Logs whenever the state changes
@@ -80,7 +86,7 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
             <h2 className="shelf-title">{title}</h2>
             {isVisible && (
                 <div className="scroll-container" id={id}>
-                    {categoryItems.map((item, index) => (
+                    {filteredItems.map((item, index) => (
                         <div key={item.id} className="item-box">
                             <div onClick={() => handleItemClick(item)}>
                                 {item.image ? (
@@ -151,6 +157,7 @@ const ClosetCategory = ({ title, id, onSelectItem }) => {
 
 const Closet = () => {
     const [selectedItems, setSelectedItems] = useState({}); //tracks currently selected item
+    const [searchQuery, setSearchQuery] = useState(''); // tracks search query
 
     // updates the selected item displayed in the closet
     const handleSelectItem = (item, categoryId) => {
@@ -165,29 +172,38 @@ const Closet = () => {
             {/* Closet title */}
             <h1>My Closet</h1>
             {/* Closet background image */}
+            <div className="search-bar">
+                <form>
+                    <input type="text" placeholder="Search by Tag..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-bar-text" />
+                    <button type="submit">Search</button>
+                </form>
+            </div>
             <img src={closetback} alt="closet-back" className = "closet-back" />
-            {/* Shelves section - display closet categories*/}
             <div className="shelves">
                 {/* Add categories for each shelf */}
                 <ClosetCategory
                     title="Shirts"
                     id="shirts-shelf"
                     onSelectItem={handleSelectItem}
+                    searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Pants"
                     id="pants-shelf"
                     onSelectItem={handleSelectItem}
+                    searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Shoes"
                     id="shoes-shelf"
                     onSelectItem={handleSelectItem}
+                    searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Accessories"
                     id="accessories-shelf"
                     onSelectItem={handleSelectItem}
+                    searchQuery={searchQuery}
                 />
             </div>
             <div className="selected-items">
