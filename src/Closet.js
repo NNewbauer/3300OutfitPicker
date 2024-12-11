@@ -1,7 +1,7 @@
+import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 import React, { useEffect, useState } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
-import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 
 // ClosetCategory Component for each item category
 const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
@@ -302,18 +302,15 @@ const Closet = () => {
             </div>
             <button onClick={exportToPDF} className="export-button">Export to PDF</button>
             <div className="selected-items">
-                <h2>Selected Items</h2>
                 {Object.entries(selectedItems).map(([category, item]) => (
                     <div key={category} className="selected-item">
-                        <h3>{category}</h3>
-                        <p>{item.name}</p>
                         {item.image && (
                             <img
                                 src={item.image}
                                 alt={item.name}
-                                style={{ width: "100px", height: "100px" }}
                             />
                         )}
+                        <p>{item.name}</p>
                     </div>
                 ))}
             </div>
