@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
 
-const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
+const ClosetCategory = ({ title, id, onSelectItem, searchQuery, registerResetFn }) => {
     const [categoryItems, setCategoryItems] = useState([]); // local state for category items
     const [isVisible, setIsVisible] = useState(false); // visibility toggle on item containers
 
@@ -76,9 +76,24 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         )
         : categoryItems;
 
+    const handleCategoryReset = useCallback((resetFn) => {
+        setResetFunctions((prev) => {
+            const updated = new Set(prev); // Use a Set to avoid duplicates
+            updated.add(resetFn);
+            return [...updated];
+        });
+    }, []);
+        
+
     useEffect(() => {
         console.log("Updated category items:", categoryItems);
     }, [categoryItems]); // Logs whenever the state changes
+    
+    useEffect(() => {
+        if (typeof registerResetFn === "function") {
+            registerResetFn(() => handleResetCategory);
+        }
+    }, [registerResetFn]);
 
     return (
         <div className="shelf" onClick={toggleVisibility}>
@@ -158,6 +173,7 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
 const Closet = () => {
     const [selectedItems, setSelectedItems] = useState({}); //tracks currently selected item
     const [searchQuery, setSearchQuery] = useState(''); // tracks search query
+    const [resetFunctions, setResetFunctions] = useState([]);
 
     // updates the selected item displayed in the closet
     const handleSelectItem = (item, categoryId) => {
@@ -165,6 +181,26 @@ const Closet = () => {
             ...prevSelected,
             [categoryId]: item,
         }));
+    };
+
+    const handleCategoryReset = (resetFn) => {
+        setResetFunctions((prev) => {
+            const updated = new Set(prev); // Ensure unique reset functions
+            updated.add(resetFn);
+            return [...updated];
+        });
+    };
+    
+
+    const handleResetAllCategories = () => {
+        if (window.confirm("Are you sure you want to reset all wardrobe items? This action cannot be undone.")) {
+            resetFunctions.forEach((resetFn) => {
+                if (typeof resetFn === "function") {
+                    resetFn(); // Execute each registered reset function
+                }
+            });
+            alert("All wardrobe items have been reset successfully.");
+        }
     };
 
     return (
@@ -178,6 +214,9 @@ const Closet = () => {
                     <button type="submit">Search</button>
                 </form>
             </div>
+            <div>
+                <button onClick={handleResetAllCategories}>Reset All</button>
+            </div>
             <img src={closetback} alt="closet-back" className = "closet-back" />
             <div className="shelves">
                 {/* Add categories for each shelf */}
@@ -186,24 +225,31 @@ const Closet = () => {
                     id="shirts-shelf"
                     onSelectItem={handleSelectItem}
                     searchQuery={searchQuery}
+                    onReset={handleCategoryReset}
                 />
                 <ClosetCategory
                     title="Pants"
                     id="pants-shelf"
                     onSelectItem={handleSelectItem}
                     searchQuery={searchQuery}
+                    onReset={handleCategoryReset}
+
                 />
                 <ClosetCategory
                     title="Shoes"
                     id="shoes-shelf"
                     onSelectItem={handleSelectItem}
                     searchQuery={searchQuery}
+                    onReset={handleCategoryReset}
+
                 />
                 <ClosetCategory
                     title="Accessories"
                     id="accessories-shelf"
                     onSelectItem={handleSelectItem}
                     searchQuery={searchQuery}
+                    onReset={handleCategoryReset}
+
                 />
             </div>
             <div className="selected-items">
