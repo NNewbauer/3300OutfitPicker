@@ -1,36 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
+import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 
+// ClosetCategory Component for each item category
 const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
-    const [categoryItems, setCategoryItems] = useState([]); // local state for category items
-    const [isVisible, setIsVisible] = useState(false); // visibility toggle on item containers
+    const [categoryItems, setCategoryItems] = useState([]);
+    const [isScrollViewOpen, setIsScrollViewOpen] = useState(false); // Local state for category items
 
-    // initializes category items with placeholders on component mount
+    // Initializes category items with placeholders on component mount
     useEffect(() => {
-        const newItems = Array.from({ length: 20 }, (_, index) => ({ // creates 20 items
-            id: index + 1, // unique identifier for each item
-            name: `Item ${index + 1}`, // name of each item
+        const newItems = Array.from({ length: 20 }, (_, index) => ({
+            id: index + 1, // Unique identifier for each item
+            name: `Item ${index + 1}`, // Name of each item
             image: null,
-            selected: false, // tracks if item is selected
-            tags: [], // cretes a tag for each item
+            selected: false, // Tracks if item is selected
+            tags: [], // Creates a tag for each item
         }));
-        setCategoryItems(newItems); // sets the category items to the new items
+        setCategoryItems(newItems); // Sets the category items to the new items
     }, []);
+
+    const toggleScrollView = () => {
+        setIsScrollViewOpen(!isScrollViewOpen);
+    }
 
     const handleUpload = async (itemId, event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                console.log("Image loaded:", reader.result)
                 setCategoryItems((prevItems) => {
                     const updatedItems = prevItems.map((item) =>
                         item.id === itemId
-                            ? { ...item, image: reader.result } // Set the image directly from the FileReader
+                            ? { ...item, image: reader.result } // Set the image directly
                             : item
                     );
-                    console.log("updated category items:", updatedItems);
                     return updatedItems;
                 });
             };
@@ -47,9 +51,9 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         );
     };
 
-    // handles when items are clicked
+    // Handles when items are clicked
     const handleItemClick = (item) => {
-        onSelectItem(item); // passing the selected item to the parent component
+        onSelectItem(item); // Passing the selected item to the parent component
     };
 
     const handleTagAddition = (itemId, tagName) => {
@@ -65,14 +69,9 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         );
     };
 
-    // changes between on and off for visibility of the scrollable container
-    const toggleVisibility = () => {
-        setIsVisible(!isVisible); 
-    };
-
     const filteredItems = searchQuery
-        ? categoryItems.filter(item =>
-            item.tags.some(tag => tag.name.toLowerCase().includes(searchQuery.toLowerCase()))
+        ? categoryItems.filter((item) =>
+            item.tags.some((tag) => tag.name.toLowerCase().includes(searchQuery.toLowerCase()))
         )
         : categoryItems;
 
@@ -80,21 +79,40 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         console.log("Updated category items:", categoryItems);
     }, [categoryItems]); // Logs whenever the state changes
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const scrollView = document.getElementById(id);
+            if (scrollView && !scrollView.contains(event.target)) {
+                setIsScrollViewOpen(false); // Close the scroll view
+            }
+        };
+    
+        if (isScrollViewOpen) {
+            document.addEventListener("mousedown", handleClickOutside); // Use 'mousedown' for better UX
+        }
+    
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isScrollViewOpen, id]);
+
     return (
-        <div className="shelf" onClick={toggleVisibility}>
-            {/* title of category inputted later */}
-            <h2 className="shelf-title">{title}</h2>
-            {isVisible && (
+        <div className="shelf">
+            {/* Title of category inputted later */}
+            <button className="toggle-button" onClick={toggleScrollView}> 
+                {isScrollViewOpen ? 'Close' : 'Open'} {title}
+            </button>
+            {isScrollViewOpen && (
                 <div className="scroll-container" id={id}>
-                    {filteredItems.map((item, index) => (
+                    {filteredItems.map((item) => (
                         <div key={item.id} className="item-box">
                             <div onClick={() => handleItemClick(item)}>
                                 {item.image ? (
-                                    <img 
+                                    <img
                                         src={item.image}
                                         alt={item.name}
-                                        style={{width: "150px", height: "150px"}}
-                                        />
+                                        style={{ width: "150px", height: "150px" }}
+                                    />
                                 ) : (
                                     <span>{item.name}</span>
                                 )}
@@ -106,26 +124,26 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                 className="image-input"
                             />
                             <div className="tags-container">
-                                    {item.tags.map((tag, index) => (
-                                        <span
-                                            key={index}
-                                            style={{
-                                                backgroundColor: tag.color,
-                                                color: '#fff',
-                                                padding: '2px 8px',
-                                                marging: '2px',
-                                                borderRadius: '4px',
-                                                display: 'inline-block',
-                                            }}
-                                        >
-                                            {tag.name}
-                                        </span>
-                                    ))}
+                                {item.tags.map((tag, index) => (
+                                    <span
+                                        key={index}
+                                        style={{
+                                            backgroundColor: tag.color,
+                                            color: '#fff',
+                                            padding: '2px 8px',
+                                            margin: '2px',
+                                            borderRadius: '4px',
+                                            display: 'inline-block',
+                                        }}
+                                    >
+                                        {tag.name}
+                                    </span>
+                                ))}
                             </div>
                             <div className="text-input-container">
                                 <input
                                     type="text"
-                                    placeholder="enter item name"
+                                    placeholder="Enter item name"
                                     className="name-input"
                                     onClick={(e) => e.stopPropagation()} // Prevents event from bubbling to parent
                                     onChange={(e) => handleNameChange(item.id, e.target.value)}
@@ -137,7 +155,7 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                 />
                                 <input
                                     type="text"
-                                    placeholder="add tag"
+                                    placeholder="Add tag"
                                     onClick={(e) => e.stopPropagation()}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
@@ -156,10 +174,16 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
 };
 
 const Closet = () => {
-    const [selectedItems, setSelectedItems] = useState({}); //tracks currently selected item
-    const [searchQuery, setSearchQuery] = useState(''); // tracks search query
+    const [selectedItems, setSelectedItems] = useState({}); // Tracks currently selected item
+    const [searchQuery, setSearchQuery] = useState(''); // Tracks search query
+    const [categoryItems, setCategoryItems] = useState({
+        shirts: [],
+        pants: [],
+        shoes: [],
+        accessories: [],
+    });
 
-    // updates the selected item displayed in the closet
+    // Function to handle item selection
     const handleSelectItem = (item, categoryId) => {
         setSelectedItems((prevSelected) => ({
             ...prevSelected,
@@ -167,51 +191,130 @@ const Closet = () => {
         }));
     };
 
+    const exportToPDF = async () => {
+        const doc = new jsPDF();
+        let yPosition = 20; // Start position on the page
+    
+        const imagesToLoad = Object.entries(selectedItems)
+            .map(([category, item]) => item.image ? { ...item, category } : null)
+            .filter(item => item !== null); // Only consider items with images
+    
+        const imagePromises = imagesToLoad.map(item => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = item.image;
+    
+                img.onload = () => {
+                    resolve({ img, item }); // Resolve when the image is loaded
+                };
+    
+                img.onerror = () => reject(`Error loading image for ${item.category}: ${item.name}`);
+            });
+        });
+    
+        // Add title to the PDF
+        doc.setFontSize(20);
+        doc.text("Selected Closet Items", 20, yPosition);
+        yPosition += 10;
+    
+        try {
+            // Wait for all images to load
+            const loadedImages = await Promise.all(imagePromises);
+    
+            // Iterate over the loaded images and add them to the PDF
+            loadedImages.forEach(({ img, item }) => {
+                // Check if we need to add a new page before adding content
+                if (yPosition + 70 > doc.internal.pageSize.height) {
+                    doc.addPage();
+                    yPosition = 20; // Reset y-position for the new page
+                }
+    
+                // Add category name
+                doc.setFontSize(16);
+                doc.text(`${item.category}:`, 20, yPosition); // Category name
+                yPosition += 10;
+    
+                // Add item name
+                doc.setFontSize(12);
+                doc.text(`Item Name: ${item.name}`, 20, yPosition); // Item name
+                yPosition += 10;
+    
+                // Add the item image to the PDF
+                doc.addImage(img, "JPEG", 20, yPosition, 50, 50); // Adjust size as needed
+                yPosition += 60; // Move y-position down after the image
+    
+                // Check if we're near the bottom of the page and add a new page if needed
+                if (yPosition > doc.internal.pageSize.height - 20) {
+                    doc.addPage();
+                    yPosition = 20; // Reset y-position for the new page
+                }
+            });
+    
+            // Save the PDF
+            doc.save("closet_items.pdf");
+        } catch (error) {
+            console.error("Error loading images: ", error);
+        }
+    };
+       
+
     return (
-        <div className="closet" style={{ backgroundImage: `('public/closetback.jpg')` }}>
-            {/* Closet title */}
+        <div className="closet">
             <h1>My Closet</h1>
-            {/* Closet background image */}
             <div className="search-bar">
                 <form>
-                    <input type="text" placeholder="Search by Tag..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="search-bar-text" />
+                    <input
+                        type="text"
+                        placeholder="Search by Tag..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="search-bar-text"
+                    />
                     <button type="submit">Search</button>
                 </form>
             </div>
-            <img src={closetback} alt="closet-back" className = "closet-back" />
-            <div className="shelves">
-                {/* Add categories for each shelf */}
+            <img src={closetback} alt="closet-back" className="closet-back" />
+            <div className="categories">
                 <ClosetCategory
                     title="Shirts"
                     id="shirts-shelf"
-                    onSelectItem={handleSelectItem}
+                    onSelectItem={(item) => handleSelectItem(item, 'shirts')}
                     searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Pants"
                     id="pants-shelf"
-                    onSelectItem={handleSelectItem}
+                    onSelectItem={(item) => handleSelectItem(item, 'pants')}
                     searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Shoes"
                     id="shoes-shelf"
-                    onSelectItem={handleSelectItem}
+                    onSelectItem={(item) => handleSelectItem(item, 'shoes')}
                     searchQuery={searchQuery}
                 />
                 <ClosetCategory
                     title="Accessories"
                     id="accessories-shelf"
-                    onSelectItem={handleSelectItem}
+                    onSelectItem={(item) => handleSelectItem(item, 'accessories')}
                     searchQuery={searchQuery}
                 />
             </div>
+            <button onClick={exportToPDF} className="export-button">Export to PDF</button>
             <div className="selected-items">
                 <h2>Selected Items</h2>
-                {Object.entries(selectedItems).map(([category, item]) =>(
-                    <p key={category}>
-                        {category}: {item.name}
-                    </p>
+                {Object.entries(selectedItems).map(([category, item]) => (
+                    <div key={category} className="selected-item">
+                        <h3>{category}</h3>
+                        <p>{item.name}</p>
+                        {item.image && (
+                            <img
+                                src={item.image}
+                                alt={item.name}
+                                style={{ width: "100px", height: "100px" }}
+                            />
+                        )}
+                    </div>
                 ))}
             </div>
         </div>
