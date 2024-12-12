@@ -13,6 +13,15 @@
     position: relative;
 }
 
+.closet-back {
+    scale: 1;
+    padding: 15px;
+    margin: 100px;
+    position: relative; /* Parent container for categories */
+    width: 38%;
+    height: 50%; /* Adjust size based on image */
+    z-index: 1; /* Keep behind categories */
+}
 /* Header Styling */
 h1 {
     color: white;
@@ -52,6 +61,7 @@ h1 {
     gap: 150px; /* Increased gap between shelves */
     width: 100%; /* Can be adjusted */
     padding: 20px 0;
+
 }
 
 /* Shelf Styling */
@@ -227,9 +237,14 @@ item-box input[type="file"] {
 .categories {
     display: grid; /* Use CSS grid for layout */
     grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
-    grid-gap: 20px; /* Add spacing between grid items */
-    width: 100%; /* Ensure it spans the full width */
+    grid-gap: 120px; /* Add spacing between grid items */
+    width: 87%; /* Ensure it spans the full width */
     justify-items: center; /* Center items horizontally */
+    z-index: 2;
+    top: 10%;
+    left: 50%;
+    padding: 50px;
+    margin-top: -500px;
 }
 
 
