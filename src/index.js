@@ -5,10 +5,19 @@ import Weather from './components/Weather';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+const App = () => {
+    return (
+        <div className="app-container">
+            <Closet />å
+            <Weather />
+        </div>
+    )
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Closet />
+    <App />
   </React.StrictMode>
 );
 

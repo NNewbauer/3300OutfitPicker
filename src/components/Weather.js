@@ -29,6 +29,12 @@ const Weather = () => {
         }
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            search(); // Trigger the search function when "Enter" is pressed
+        }
+    };
+
     useEffect(() => {
         search()
     }, [])
@@ -36,7 +42,9 @@ const Weather = () => {
     return (
         <div className="weather">
             <div className='search-bar'>
-                <input type='text' placeholder='search' value={citySearch} onChange={(e) => setCitySearch(e.target.value)} />
+                <input type='text' placeholder='search' value={citySearch} onChange={(e) => setCitySearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+                />
                 <img src={search_icon} alt='search' onClick={search} />
             </div>
         <img src={clear_icon} alt="" className='weather-icon'/>
