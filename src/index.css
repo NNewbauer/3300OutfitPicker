@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  width: 100%;
+}
+
+.weather {
+  top: 20px; /* Distance from the top */
+  right: 0; /* Distance from the right */
+  z-index: 10; /* Ensure it appears above other components */
+  background-color: rgba(255, 255, 255, 0.9); /* Optional: Semi-transparent background */
+  padding: 10px;
+  justify-content: center;
+  border-radius: 8px; /* Optional: Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+  transform: scale(2);
+}
+
+.closet {
+  flex: 1;
+  overflow-y: auto; /* Scrollable area for closet content if needed */
+}
+
+
+
+
+
+
