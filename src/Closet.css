@@ -1,0 +1,311 @@
+/* Main Closet Container */
+.closet {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+/* Header Styling */
+h1 {
+    color: white;
+    text-shadow: 2px 2px 5px black;
+    margin-bottom: 20px;
+}
+
+/* Search Bar Styling */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 300px;
+}
+
+.search-bar button {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #888;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Category Container (Shelves) Styling */
+.shelves {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 150px; /* Increased gap between shelves */
+    width: 100%; /* Can be adjusted */
+    padding: 20px 0;
+}
+
+/* Shelf Styling */
+.shelf {
+    margin: 0; /* Remove unnecessary margins */
+    padding: 15px; /* Remove padding */
+    display: flex; /* Flex layout for better alignment */
+    align-items: center; /* Center the button vertically */
+    justify-content: center; /* Center the button horizontally */
+    width: auto; /* Shrink to fit content */
+    height: auto; /* Adjust to content height */
+    background: none; /* Remove background if any */
+    border: none; /* Remove border if any */
+}
+
+.shelf:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.shelf img {
+    max-width: 80%;  /* Adjust image scaling */
+    max-height: 80%;
+    object-fit: contain;
+}
+
+.shelf-title {
+    font-size: 24px; /* Increased title size */
+    color: black;
+    text-align: center;
+    text-shadow: 1px 1px 3px gray;
+}
+
+/* Scrollable Container for Items */
+.scroll-container {
+    position: absolute;
+    width: 200px;
+    height: 240px;
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    scroll-snap-type: x mandatory;
+    z-index: 100;
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Item Box Styling */
+.item-box {
+    flex: 0 0 200px; /* Fixed width for each item */
+    height: 200px;
+    width: 50px; /* Adjust height */
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    scroll-snap-align: center; /* Snap items to center */
+}
+
+item-box input[type="file"] {
+    margin-top: 10px;
+    font-size: .8rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.item-box input[type="text"] {
+    margin-top: 10px;
+    font-size: 0.8em;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 90%;
+    text-align: center;
+}
+
+.item-box:hover {
+    transform: scale(1.05);
+    border-color: #888;
+}
+
+/* Image Styling for Items */
+.item-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+/* Input Styling */
+.item-box input[type="file"] {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.item-box input[type="text"] {
+    margin-top: 10px;
+    font-size: 0.8em;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 90%;
+    text-align: center;
+}
+
+.item-box img {
+    width: 100%; /* Fill parent width */
+    height: 150px; /* Adjust height */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 5px;
+}
+
+.item-box input[type="text"]:focus {
+    border-color: #888;
+}
+
+/* Selected Items Styling */
+.selected-items {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    z-index: 2; /* Above the closet image */
+}
+
+.selected-items h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.selected-items p {
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+.selected-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.selected-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 140px;
+    border-radius: 5px;
+}
+
+.selected-item p {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.selected-item.shirts {
+    order: 1;
+}
+.selected-item.pants {
+    order: 2;
+}
+.selected-item.shoes {
+    order: 3;
+}
+.selected-item.accessories {
+    order: 4;
+}
+
+/* Closet Background Image */
+.closet-back {
+    scale: 1.6;
+    padding: 15px;
+    margin: 100px;
+}
+
+.categories {
+    display: grid; /* Use CSS grid for layout */
+    grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
+    grid-gap: 30px; /* Add spacing between grid items */
+    width: 100%; /* Ensure it spans the full width */
+    justify-items: center; /* Center items horizontally */
+    z-index: 2; 
+}
+
+
+/* Export Button Styling */
+.export-pdf-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.export-pdf-button:hover {
+    background-color: #45a049;
+}
+
+/* Additional Styling for Tags */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.tags-container span {
+    background-color: #4CAF50;
+    color: white;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 5px;
+}
