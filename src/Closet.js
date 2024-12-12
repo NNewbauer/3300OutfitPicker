@@ -182,7 +182,7 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                     color: '#fff',
                                 }}
                             >
-                                {item.available ? 'Make Unavailable' : 'Make Available'}
+                                {item.available ? 'Available' : 'Unvailable'}
                             </button>
                         </div>
                     ))}
