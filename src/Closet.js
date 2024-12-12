@@ -260,7 +260,7 @@ const Closet = () => {
 
     return (
         <div className="closet">
-            <h1>My Closet</h1>
+            <h1>Outfit Picker</h1>
             <div className="search-bar">
                 <form>
                     <input
