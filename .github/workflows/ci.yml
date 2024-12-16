@@ -29,6 +29,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: install babel plugin
+        run: npm install @babel/plugin-proposal-private-property-in-object --save-dev
+
+      - name: Set environment variables
+        run: echo "CI=false" >> $GITHUB_ENV
+
       # Step 4: Run tests (Ensures that tests pass before build)
       - name: Run tests
         run: npm test

@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
 
