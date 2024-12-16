@@ -18,7 +18,7 @@
     padding: 15px;
     margin: 100px;
     position: relative; /* Parent container for categories */
-    width: 38%;
+    width: 50%;
     height: 50%; /* Adjust size based on image */
     z-index: 1; /* Keep behind categories */
 }
@@ -279,8 +279,8 @@ item-box input[type="file"] {
 .categories {
     display: grid; /* Use CSS grid for layout */
     grid-template-columns: repeat(2, 1fr); /* Create 2 columns */
-    grid-gap: 120px; /* Add spacing between grid items */
-    width: 87%; /* Ensure it spans the full width */
+    grid-gap: 140px; /* Add spacing between grid items */
+    width: 110%; /* Ensure it spans the full width */
     justify-items: center; /* Center items horizontally */
     z-index: 2;
     top: 10%;
@@ -322,4 +322,20 @@ item-box input[type="file"] {
     padding: 2px 8px;
     margin: 2px;
     border-radius: 5px;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    backgroundColor: '#f44336';
+    color: #fff;
+    border: none;
+    borderRadius: '50%';
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justifyContent: center;
+    alignItems: center;
+    cursor: pointer;
 }

@@ -1,11 +1,11 @@
 import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
 import PreviouslySelectedItems from './components/PreviouslySelectedItems';
 
 // ClosetCategory Component for each item category
-const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
+const ClosetCategory = ({ title, id, onSelectItem, searchQuery, registerReset }) => {
     const [categoryItems, setCategoryItems] = useState([]);
     const [isScrollViewOpen, setIsScrollViewOpen] = useState(false); // Local state for category items
 
@@ -22,9 +22,27 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         setCategoryItems(newItems); // Sets the category items to the new items
     }, []);
 
+    const resetItems = () => {
+        setCategoryItems((prevItems) =>
+            prevItems.map((item) => ({ ...item, tags: [], available: true }))
+        );
+    };
+
+    // Register reset function with parent
+    useEffect(() => {
+        if (registerReset) {
+            registerReset(resetItems);
+        }
+    }, [registerReset]);
+
     const toggleScrollView = () => {
         setIsScrollViewOpen(!isScrollViewOpen);
     }
+
+    const handleDeleteItem = (itemId) => {
+        // Correctly filter out only the item with the matching id
+        setCategoryItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+    };
 
     const handleUpload = async (itemId, event) => {
         const file = event.target.files[0];
@@ -121,12 +139,23 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                     <img
                                         src={item.image}
                                         alt={item.name}
-                                        style={{ width: "150px", height: "150px" }}
+                                        style={{width: "150px", height: "150px"}}
                                     />
                                 ) : (
                                     <span>{item.name}</span>
                                 )}
                             </div>
+                            {item.name && (
+                                <button
+                                    className="delete-button"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent parent click events
+                                        handleDeleteItem(item.id);
+                                    }}
+                                >
+                                    🗑️
+                                </button>
+                            )}
                             <input
                                 type="file"
                                 accept="image/*"
@@ -196,12 +225,16 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
 const Closet = () => {
     const [selectedItems, setSelectedItems] = useState({}); // Tracks currently selected item
     const [searchQuery, setSearchQuery] = useState(''); // Tracks search query
-    const [categoryItems, setCategoryItems] = useState({
-        shirts: [],
-        pants: [],
-        shoes: [],
-        accessories: [],
-    });
+
+    const resetCategoryRefs = useRef([]);
+
+    const handleResetAll = () => {
+        if (window.confirm("Are you sure you want to reset all selected items?")) {
+            setSelectedItems({});
+            resetCategoryRefs.current.forEach((resetFn) => resetFn && resetFn());
+            alert("All seelceted have been reset successfully!");
+        }
+    };
 
     // Function to handle item selection
     const handleSelectItem = (item, categoryId) => {
@@ -211,12 +244,15 @@ const Closet = () => {
         }));
     };
 
+
+
+
     const exportToPDF = async () => {
         const doc = new jsPDF();
         let yPosition = 20; // Start position on the page
 
         const imagesToLoad = Object.entries(selectedItems)
-            .map(([category, item]) => item.image ? { ...item, category } : null)
+            .map(([category, item]) => item.image ? {...item, category} : null)
             .filter(item => item !== null); // Only consider items with images
 
         const imagePromises = imagesToLoad.map(item => {
@@ -278,6 +314,8 @@ const Closet = () => {
     };
 
 
+
+
     return (
         <div className="closet">
             <h1>Outfit Picker</h1>
@@ -293,7 +331,10 @@ const Closet = () => {
                     <button type="submit">Search</button>
                 </form>
             </div>
-            <img src={closetback} alt="closet-back" className="closet-back" />
+            <button onClick={handleResetAll} className="reset-button">
+                Reset All Preferences
+            </button>
+            <img src={closetback} alt="closet-back" className="closet-back"/>
             <div className="categories">
                 <ClosetCategory
                     title="Shirts"
