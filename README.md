@@ -85,8 +85,7 @@ Launches the application. Open [http://localhost:3000](http://localhost:3000) in
 flowchart TD
     User --> Frontend[Frontend: React]
     Frontend --> API[Backend API: Spring Boot]
-    API --> ColorThief[Color Analysis: ColorThief]
-    API --> MatchingAlgorithm[Matching Algorithm]
+    API --> Weather Updates [Weather Updates]
     API --> TagSystem[Tag System]
     TagSystem --> MatchingAlgorithm
     MatchingAlgorithm --> OutfitSuggestions[Outfit Suggestions]
