@@ -109,11 +109,11 @@ flowchart TD
 ### Workflow Diagram
 ```mermaid
 flowchart LR
-    Start[User Action: Upload Image] --> Analyze[Analyze Color: ColorThief]
-    Analyze --> Tag[Tag Clothing Item]
-    Tag --> Generate[Generate Outfit Suggestions]
-    Generate --> Save[Save Outfit (Optional)]
-    Save --> End[Outfit Ready]
+    Start([User Action: Upload Image]) --> Analyze([Analyze Color: ColorThief])
+    Analyze --> Tag([Tag Clothing Item])
+    Tag --> Generate([Generate Outfit Suggestions])
+    Generate --> Save([Save Outfit (Optional)])
+    Save --> End([Outfit Ready])
 ```
 
 ### Project Structure
