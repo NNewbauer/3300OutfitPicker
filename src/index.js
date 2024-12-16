@@ -1,13 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Closet from './Closet';
+import Weather from './components/Weather';
+import FeedbackForm from './components/FeedbackForm';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+
+const App = () => {
+    return (
+        <div className="app-container">
+            <Closet />
+            <Weather />
+            <div className="feedback-container">
+                <FeedbackForm />
+            </div>
+        </div>
+    )
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Closet />
+    <App />
   </React.StrictMode>
 );
 

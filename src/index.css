@@ -1,13 +1,60 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px; /* Adds spacing between components */
+  width: 100%;
+}
+
+.weather {
+  top: 20px; /* Distance from the top */
+  right: 0; /* Distance from the right */
+  z-index: 10; /* Ensure it appears above other components */
+  background-color: rgba(255, 255, 255, 0.9); /* Optional: Semi-transparent background */
+  padding: 10px;
+  justify-content: center;
+  border-radius: 8px; /* Optional: Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+  transform: scale(2);
+}
+
+.closet {
+  width: 100%;
+  max-width: 1200px; /* Optional: Constrain closet width */
+  margin: 20px auto; /* Add spacing and center it */
+  overflow: hidden; /* Remove extra scrollbars */
+}
+
+.feedback-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto; /* Add spacing above and below feedback */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+
+
+
+
