@@ -25,6 +25,11 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
         setIsScrollViewOpen(!isScrollViewOpen);
     }
 
+    const handleDeleteItem = (itemId) => {
+        // Correctly filter out only the item with the matching id
+        setCategoryItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+    };
+
     const handleUpload = async (itemId, event) => {
         const file = event.target.files[0];
         if (file) {
@@ -120,12 +125,23 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
                                     <img
                                         src={item.image}
                                         alt={item.name}
-                                        style={{ width: "150px", height: "150px" }}
+                                        style={{width: "150px", height: "150px"}}
                                     />
                                 ) : (
                                     <span>{item.name}</span>
                                 )}
                             </div>
+                            {item.name && (
+                                <button
+                                    className="delete-button"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent parent click events
+                                        handleDeleteItem(item.id);
+                                    }}
+                                >
+                                    🗑️
+                                </button>
+                            )}
                             <input
                                 type="file"
                                 accept="image/*"
@@ -215,7 +231,7 @@ const Closet = () => {
         let yPosition = 20; // Start position on the page
 
         const imagesToLoad = Object.entries(selectedItems)
-            .map(([category, item]) => item.image ? { ...item, category } : null)
+            .map(([category, item]) => item.image ? {...item, category} : null)
             .filter(item => item !== null); // Only consider items with images
 
         const imagePromises = imagesToLoad.map(item => {
