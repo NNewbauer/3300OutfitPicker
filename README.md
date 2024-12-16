@@ -106,13 +106,14 @@ flowchart TD
     Outfit --> MatchingAlgorithm
     MatchingAlgorithm --> ColorThief
 ```
+
 ### Workflow Diagram
 ```mermaid
 flowchart LR
-    Start([User Action: Upload Image]) --> Analyze([Analyze Color: ColorThief])
+    Start([Upload Image]) --> Analyze([Analyze Color])
     Analyze --> Tag([Tag Clothing Item])
     Tag --> Generate([Generate Outfit Suggestions])
-    Generate --> Save([Save Outfit (Optional)])
+    Generate --> Save([Save Outfit])
     Save --> End([Outfit Ready])
 ```
 
