@@ -84,11 +84,9 @@ Launches the application. Open [http://localhost:3000](http://localhost:3000) in
 ```mermaid
 flowchart TD
     User --> Frontend[Frontend: React]
-    Frontend --> API[Backend API: Spring Boot]
-    API --> Weather Updates [Weather Updates]
-    API --> TagSystem[Tag System]
-    TagSystem --> MatchingAlgorithm
-    MatchingAlgorithm --> OutfitSuggestions[Outfit Suggestions]
+    Frontend --> TagSystem[Tag System]
+    TagSystem --> RandomOutfitSelector[Random Outfit Selector]
+    RandomOutfitSelector --> OutfitSuggestions[Outfit Suggestions]
 ```
 
 ### Class Diagram
@@ -101,15 +99,14 @@ flowchart TD
     OutfitGeneratorScreen --> Outfit
     ClothingItem --> Image
     ClothingItem --> Tags
-    Outfit --> MatchingAlgorithm
-    MatchingAlgorithm --> ColorThief
+    Outfit --> RandomOutfitSelector
 ```
 
 ### Workflow Diagram
 ```mermaid
 flowchart LR
     Start([Upload Image]) --> Tag([Tag Clothing Item])
-    Tag --> Generate([Generate Outfit Suggestions])
+    Tag --> Generate([Generate Random Outfit])
     Generate --> Save([Save Outfit])
     Save --> End([Outfit Ready])
 ```
