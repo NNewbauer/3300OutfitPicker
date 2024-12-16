@@ -88,7 +88,6 @@ flowchart TD
     API --> ColorThief[Color Analysis: ColorThief]
     API --> MatchingAlgorithm[Matching Algorithm]
     API --> TagSystem[Tag System]
-    ColorThief --> MatchingAlgorithm
     TagSystem --> MatchingAlgorithm
     MatchingAlgorithm --> OutfitSuggestions[Outfit Suggestions]
 ```
@@ -110,8 +109,7 @@ flowchart TD
 ### Workflow Diagram
 ```mermaid
 flowchart LR
-    Start([Upload Image]) --> Analyze([Analyze Color])
-    Analyze --> Tag([Tag Clothing Item])
+    Start([Upload Image]) --> Tag([Tag Clothing Item])
     Tag --> Generate([Generate Outfit Suggestions])
     Generate --> Save([Save Outfit])
     Save --> End([Outfit Ready])
