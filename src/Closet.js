@@ -2,7 +2,6 @@ import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import './Closet.css';
 import closetback from './closetback.jpg';
-import PreviouslySelectedItems from './components/PreviouslySelectedItems';
 
 // ClosetCategory Component for each item category
 const ClosetCategory = ({ title, id, onSelectItem, searchQuery, registerReset }) => {
@@ -312,8 +311,6 @@ const Closet = () => {
             console.error("Error loading images: ", error);
         }
     };
-
-
 
 
     return (
