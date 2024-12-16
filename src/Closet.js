@@ -195,12 +195,6 @@ const ClosetCategory = ({ title, id, onSelectItem, searchQuery }) => {
 const Closet = () => {
     const [selectedItems, setSelectedItems] = useState({}); // Tracks currently selected item
     const [searchQuery, setSearchQuery] = useState(''); // Tracks search query
-    const [categoryItems, setCategoryItems] = useState({
-        shirts: [],
-        pants: [],
-        shoes: [],
-        accessories: [],
-    });
 
     // Function to handle item selection
     const handleSelectItem = (item, categoryId) => {

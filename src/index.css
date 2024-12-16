@@ -1,10 +1,16 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 code {
@@ -13,10 +19,10 @@ code {
 }
 
 .app-container {
-  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
+  align-items: center;
+  gap: 30px; /* Adds spacing between components */
   width: 100%;
 }
 
@@ -33,8 +39,18 @@ code {
 }
 
 .closet {
-  flex: 1;
-  overflow-y: auto; /* Scrollable area for closet content if needed */
+  width: 100%;
+  max-width: 1200px; /* Optional: Constrain closet width */
+  margin: 20px auto; /* Add spacing and center it */
+  overflow: hidden; /* Remove extra scrollbars */
+}
+
+.feedback-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto; /* Add spacing above and below feedback */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 

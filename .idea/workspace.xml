@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="19089043-63ef-4687-91ac-1d23c25f68f1" name="Changes" comment="properly putting the css to put the categories in the right place">
+      <change afterPath="$PROJECT_DIR$/src/components/FeedbackForm.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FeedbackForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/escodegen" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/escodegen" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/esgenerate" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/esgenerate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/sucrase/node_modules/.bin/glob" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/sucrase/node_modules/.bin/glob" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/tsconfig-paths/node_modules/.bin/json5" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/tsconfig-paths/node_modules/.bin/json5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Closet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Closet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Closet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Closet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <list id="81d9e5e7-bad0-41c8-9385-c4d6ea13b2cd" name="Changes by aayushbharadwaj" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="33-correclty-placing-item-categories" />
+        <entry key="$PROJECT_DIR$" value="24-create-feature-to-show-recently-selected" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,7 +71,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "38-create-feedback-system",
     "last_opened_file_path": "/Users/nikhil/3300OutfitPicker",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -76,6 +83,15 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -96,6 +112,8 @@
       <workItem from="1733987006846" duration="779000" />
       <workItem from="1733994954935" duration="3480000" />
       <workItem from="1733998511567" duration="1469000" />
+      <workItem from="1734137552058" duration="357000" />
+      <workItem from="1734302880979" duration="5214000" />
     </task>
     <task id="LOCAL-00001" summary="fixing gitignore">
       <option name="closed" value="true" />
