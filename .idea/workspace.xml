@@ -4,19 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="19089043-63ef-4687-91ac-1d23c25f68f1" name="Changes" comment="properly putting the css to put the categories in the right place">
-      <change afterPath="$PROJECT_DIR$/src/components/FeedbackForm.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/FeedbackForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="19089043-63ef-4687-91ac-1d23c25f68f1" name="Changes" comment="working on components, but doesn't look very possible at the moment.">
+      <change afterPath="$PROJECT_DIR$/__mocks__/fileMock.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/babel.config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/jest.setup.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Tests.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.cache/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/escodegen" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/escodegen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/esgenerate" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/static-eval/node_modules/.bin/esgenerate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/sucrase/node_modules/.bin/glob" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/sucrase/node_modules/.bin/glob" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/tsconfig-paths/node_modules/.bin/json5" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/tsconfig-paths/node_modules/.bin/json5" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Closet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Closet.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Closet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Closet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DominantColor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DominantColor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DominantColot.test.js" beforeDir="false" />
     </list>
     <list id="81d9e5e7-bad0-41c8-9385-c4d6ea13b2cd" name="Changes by aayushbharadwaj" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +69,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "38-create-feedback-system",
+    "git-widget-placeholder": "26-5-test-cases",
     "last_opened_file_path": "/Users/nikhil/3300OutfitPicker",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -139,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733999897514</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="working on components, but doesn't look very possible at the moment.">
+      <option name="closed" value="true" />
+      <created>1734334507323</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1734334507323</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +178,7 @@
     <MESSAGE value="fixing gitignore" />
     <MESSAGE value="implementing the full weather api and toggle to use in the closet website" />
     <MESSAGE value="properly putting the css to put the categories in the right place" />
-    <option name="LAST_COMMIT_MESSAGE" value="properly putting the css to put the categories in the right place" />
+    <MESSAGE value="working on components, but doesn't look very possible at the moment." />
+    <option name="LAST_COMMIT_MESSAGE" value="working on components, but doesn't look very possible at the moment." />
   </component>
 </project>
